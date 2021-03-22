@@ -7,7 +7,7 @@ Deno HTTP compression middleware.
 ## Features
 
 - Detects supported encodings with `Accept-Encoding` header
-- Supports chaining algorithms (e.g. `gzip` -> `br`)
+- Supports chaining algorithms (e.g. `gzip` -> `deflate`)
 - Creates a `Content-Encoding` header with applied compression
 - Send `409 Not Acceptable` if encoding is not supported
 
