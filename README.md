@@ -21,6 +21,7 @@ const s = serve({ port: 3000 })
 
 for await (const req of s) {
   await compression({
+    // Path to file
     path: 'README.md',
     // Apply all algos in a queue
     compression: ['gzip', 'deflate']
