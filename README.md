@@ -1,5 +1,7 @@
 # compression
 
+[![GitHub release (latest by date)][releases]][releases-page] [![][docs-badge]][docs]
+
 Deno HTTP compression middleware.
 
 ## Features
@@ -25,3 +27,8 @@ for await (const req of s) {
   })(req)
 }
 ```
+
+[releases]: https://img.shields.io/github/v/release/deno-libs/compression?style=flat-square
+[docs-badge]: https://img.shields.io/github/v/release/deno-libs/compression?color=yellow&label=Documentation&logo=deno&style=flat-square
+[docs]: https://doc.deno.land/https/deno.land/x/compression/mod.ts
+[releases-page]: https://github.com/deno-libs/compression/releases
