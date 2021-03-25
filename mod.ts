@@ -53,12 +53,8 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
 
   const buf = await Deno.readAll(await Deno.open(opts.path))
 
-  if (
-    !acceptHeader ||
-    encodings === 'identity' ||
-    (Array.isArray(encodings) && encodings.length === 1 && encodings[0] === 'identity')
-  ) {
-    await req.respond({
+  if (!acceptHeader || acceptHeader === 'identity' || (Array.isArray(encodings) && encodings[0] === 'identity')) {
+    return await req.respond({
       body: buf,
       status: 200,
       headers: new Headers({
@@ -70,7 +66,7 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
 
     const compressed = funcs[preferredAlgo](buf)
 
-    await req.respond({
+    return await req.respond({
       body: compressed,
       headers: new Headers({
         'Content-Encoding': preferredAlgo
@@ -85,13 +81,9 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
         if (Object.keys(funcs).includes(enc as string)) {
           compressed = funcs[enc as Compression](compressed)
           encs.push(enc)
-        } else {
-          return await req.respond({
-            status: 406,
-            body: 'Not Acceptable'
-          })
         }
       }
+
       return await req.respond({
         body: compressed,
         headers: new Headers({
