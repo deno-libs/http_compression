@@ -1,10 +1,11 @@
-// import { compress as brotli } from 'https://deno.land/x/brotli@v0.1.4/mod.ts'
+import { compress as brotli } from 'https://deno.land/x/brotli@v0.1.4/mod.ts'
 import { gzip, deflate } from 'https://deno.land/x/denoflate@1.2.1/mod.ts'
 import { ServerRequest } from 'https://deno.land/std@0.97.0/http/server.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.0/mod.ts'
+import { readAll } from 'https://deno.land/std@0.97.0/io/util.ts'
 
 const funcs = {
-  // br: brotli,
+  br: brotli,
   gzip: (body: Uint8Array) => gzip(body, undefined),
   deflate: (body: Uint8Array) => deflate(body, undefined)
 }
@@ -12,7 +13,7 @@ const funcs = {
 /**
  * Supported compression algorithms
  */
-type Compression = 'gzip' | /* 'br' | */ 'deflate'
+type Compression = 'gzip' | 'br' | 'deflate'
 
 export type CompressionOptions = {
   /**
@@ -51,7 +52,7 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
 
   const encodings = accepts.encodings()
 
-  const buf = await Deno.readAll(await Deno.open(opts.path))
+  const buf = await readAll(await Deno.open(opts.path))
 
   if (!acceptHeader || acceptHeader === 'identity' || (Array.isArray(encodings) && encodings[0] === 'identity')) {
     return await req.respond({
@@ -77,7 +78,10 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
     if (Array.isArray(encodings)) {
       let compressed: Uint8Array = buf
       let encs: string[] = []
-      for (const enc of encodings.filter((x) => x !== 'identity')) {
+
+      for (let enc of encodings.filter((x) => x !== 'identity')) {
+        if (enc === 'brotli') enc = 'br'
+
         if (Object.keys(funcs).includes(enc as string)) {
           compressed = funcs[enc as Compression](compressed)
           encs.push(enc)

@@ -6,8 +6,9 @@ Deno HTTP compression middleware.
 
 ## Features
 
+- `gzip`, `deflate` and `brotli` support
 - Detects supported encodings with `Accept-Encoding` header
-- Supports chaining algorithms (e.g. `gzip` -> `deflate`)
+- Respects encodings order (depending on `Accept-Encoding` value)
 - Creates a `Content-Encoding` header with applied compression
 - Send `409 Not Acceptable` if encoding is not supported
 
@@ -21,12 +22,20 @@ const s = serve({ port: 3000 })
 
 for await (const req of s) {
   await compression({
-    // Path to file
+    // Path to a file
     path: 'README.md',
-    // Apply all algos in a queue
     compression: ['gzip', 'deflate']
   })(req)
 }
+```
+
+Now try to send a `HEAD` request with `curl`:
+
+```sh
+$ curl localhost:3000 --head -H "Accept-Encoding: br, gzip, deflate" --compressed
+HTTP/1.1 200 OK
+content-length: 550
+content-encoding: br, gzip, deflate
 ```
 
 [releases]: https://img.shields.io/github/v/release/deno-libs/compression?style=flat-square

@@ -6,6 +6,6 @@ const s = serve({ port: 3000 })
 for await (const req of s) {
   await compression({
     path: 'README.md',
-    compression: ['gzip', 'deflate']
+    compression: ['br', 'gzip', 'deflate']
   })(req)
 }
