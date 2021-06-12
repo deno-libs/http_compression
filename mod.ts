@@ -77,7 +77,7 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
   } else {
     if (Array.isArray(encodings)) {
       let compressed: Uint8Array = buf
-      let encs: string[] = []
+      const encs: string[] = []
 
       for (let enc of encodings.filter((x) => x !== 'identity')) {
         if (enc === 'brotli') enc = 'br'
