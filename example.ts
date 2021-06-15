@@ -1,4 +1,4 @@
-import { serve } from 'https://deno.land/std@0.98.0/http/server.ts'
+import { serve } from 'https://deno.land/std@0.99.0/http/server.ts'
 import { compression } from './mod.ts'
 
 const s = serve({ port: 3000 })
