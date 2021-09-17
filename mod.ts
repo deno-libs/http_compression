@@ -1,8 +1,7 @@
 import { compress as brotli } from 'https://deno.land/x/brotli@v0.1.4/mod.ts'
 import { gzip, deflate } from 'https://deno.land/x/denoflate@1.2.1/mod.ts'
-import { ServerRequest } from 'https://deno.land/std@0.106.0/http/server.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.1/mod.ts'
-import { readAll } from 'https://deno.land/std@0.106.0/io/util.ts'
+import { readAll } from 'https://deno.land/std@0.107.0/io/util.ts'
 
 const funcs = {
   br: brotli,
@@ -32,7 +31,7 @@ export type CompressionOptions = {
  *
  * @example
  * ```ts
- *import { serve } from 'https://deno.land/std@0.106.0/http/server.ts'
+ *import { serve } from 'https://deno.land/std@0.107.0/http/server.ts'
  *import { compression } from 'https://deno.land/x/compression/brotli.ts'
  *
  *const s = serve({ port: 3000 })
@@ -45,7 +44,7 @@ export type CompressionOptions = {
  *}
  * ```
  */
-export const compression = (opts: CompressionOptions) => async (req: ServerRequest) => {
+export const compression = (opts: CompressionOptions) => async (req: Request) => {
   const acceptHeader = req.headers.get('Accept-Encoding')
 
   const accepts = new Accepts(req.headers)
@@ -55,8 +54,7 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
   const buf = await readAll(await Deno.open(opts.path))
 
   if (!acceptHeader || acceptHeader === 'identity' || (Array.isArray(encodings) && encodings[0] === 'identity')) {
-    return await req.respond({
-      body: buf,
+    return new Response(buf, {
       status: 200,
       headers: new Headers({
         'Content-Encoding': 'identity'
@@ -67,8 +65,7 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
 
     const compressed = funcs[preferredAlgo](buf)
 
-    return await req.respond({
-      body: compressed,
+    return new Response(compressed, {
       headers: new Headers({
         'Content-Encoding': preferredAlgo
       }),
@@ -88,26 +85,21 @@ export const compression = (opts: CompressionOptions) => async (req: ServerReque
         }
       }
 
-      return await req.respond({
-        body: compressed,
+      return new Response(compressed, {
         headers: new Headers({
           'Content-Encoding': encs.join(', ')
         })
       })
     } else {
-      return await req.respond(
-        Object.keys(funcs).includes(encodings as string)
-          ? {
-              body: funcs[encodings as Compression](buf),
-              headers: new Headers({
-                'Content-Encoding': encodings as string
-              })
-            }
-          : {
-              status: 406,
-              body: 'Not Acceptable'
-            }
-      )
+      return Object.keys(funcs).includes(encodings as string)
+        ? new Response(funcs[encodings as Compression](buf), {
+            headers: new Headers({
+              'Content-Encoding': encodings as string
+            })
+          })
+        : new Response('Not Acceptable', {
+            status: 406
+          })
     }
   }
 }

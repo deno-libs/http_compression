@@ -1,11 +1,14 @@
-import { serve } from 'https://deno.land/std@0.106.0/http/server.ts'
 import { compression } from './mod.ts'
+import { Server } from 'https://deno.land/std@0.107.0/http/server.ts'
 
-const s = serve({ port: 3000 })
+const s = new Server({
+  handler: async (req) => {
+    return await compression({
+      path: 'README.md',
+      compression: ['br', 'gzip', 'deflate']
+    })(req)
+  },
+  addr: ':3000'
+})
 
-for await (const req of s) {
-  await compression({
-    path: 'README.md',
-    compression: ['br', 'gzip', 'deflate']
-  })(req)
-}
+s.listenAndServe()
