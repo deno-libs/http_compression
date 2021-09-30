@@ -4,22 +4,22 @@ import { compression } from './mod.ts'
 
 describe('options', () => {
   it('does not apply compression if "Accept-Encoding" is "identity"', async () => {
-    const request = superdeno(compression({ path: 'README.md', compression: ['gzip'] }))
+    const request = superdeno(compression({ path: 'tests/example-file.md', compression: ['gzip'] }))
 
     await request
       .get('/')
       .set('Accept-Encoding', 'identity')
       .expect(200)
       .expect('Content-Encoding', 'identity')
-      .expect('Content-Length', '1384')
+      .expect('Content-Length', '2103')
   })
   it('applies compression to a file', async () => {
-    const request = superdeno(compression({ path: 'README.md', compression: ['br', 'gzip', 'deflate'] }))
+    const request = superdeno(compression({ path: 'tests/example-file.md', compression: ['br', 'gzip', 'deflate'] }))
 
     await request
       .get('/')
       .set('Accept-Encoding', 'br, gzip, deflate')
-      .expect('Content-Length', '673')
+      .expect('Content-Length', '866')
       .expect('Content-Encoding', 'br, gzip, deflate')
   })
 })
