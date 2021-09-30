@@ -12,3 +12,6 @@ const s = new Server({
 })
 
 s.listenAndServe()
+console.log(
+  "Server available at http://localhost:3000 .  Set Accept-Encoding header to 'gzip', for example, to get a compressed response.",
+);
