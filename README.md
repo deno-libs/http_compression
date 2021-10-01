@@ -2,8 +2,10 @@
 
 # compression
 
-[![nest badge][nest-badge]](https://nest.land/package/compression) [![GitHub Workflow Status][gh-actions-img]][github-actions]
-[![Codecov][cov-badge]][cov] [![][docs-badge]][docs] [![][code-quality-img]][code-quality]
+[![nest badge][nest-badge]](https://nest.land/package/compression)
+[![GitHub Workflow Status][gh-actions-img]][github-actions]
+[![Codecov][cov-badge]][cov] [![][docs-badge]][docs]
+[![][code-quality-img]][code-quality]
 
 </div>
 
@@ -20,20 +22,20 @@ Deno HTTP compression middleware.
 ## Example
 
 ```ts
-import { compression } from 'https://deno.land/x/compression/mod.ts'
-import { Server } from 'https://deno.land/std@0.107.0/http/server.ts'
+import { compression } from "https://deno.land/x/compression/mod.ts";
+import { Server } from "https://deno.land/std@0.107.0/http/server.ts";
 
 const s = new Server({
   handler: async (req) => {
     return await compression({
-      path: 'README.md',
-      compression: ['br', 'gzip', 'deflate']
-    })(req)
+      path: "README.md",
+      compression: ["br", "gzip", "deflate"],
+    })(req);
   },
-  addr: ':3000'
-})
+  addr: ":3000",
+});
 
-s.listenAndServe()
+s.listenAndServe();
 ```
 
 Now try to send a `HEAD` request with `curl`:
