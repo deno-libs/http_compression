@@ -18,10 +18,7 @@ export type CompressionOptions = {
   /**
    * Compression algorithms (gzip, brotli, deflate). The first is used if all are accepted by the client
    */
-  compression:
-    | [Compression]
-    | [Compression, Compression]
-    | [Compression, Compression, Compression]
+  compression: [Compression] | [Compression, Compression] | [Compression, Compression, Compression]
 } & (
   | {
       /**
@@ -85,11 +82,7 @@ export const compression =
       throw Error('Must specify either bodyBinary, bodyText, or path.')
     }
 
-    if (
-      !acceptHeader ||
-      acceptHeader === 'identity' ||
-      (Array.isArray(encodings) && encodings[0] === 'identity')
-    ) {
+    if (!acceptHeader || acceptHeader === 'identity' || (Array.isArray(encodings) && encodings[0] === 'identity')) {
       return new Response(buf, {
         status: 200,
         headers: new Headers({
