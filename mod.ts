@@ -6,7 +6,7 @@ import { readAll } from 'https://deno.land/std@0.108.0/io/util.ts'
 const funcs = {
   br: brotli,
   gzip: (body: Uint8Array) => gzip(body, undefined),
-  deflate: (body: Uint8Array) => deflate(body, undefined),
+  deflate: (body: Uint8Array) => deflate(body, undefined)
 }
 
 /**
@@ -93,8 +93,8 @@ export const compression =
       return new Response(buf, {
         status: 200,
         headers: new Headers({
-          'Content-Encoding': 'identity',
-        }),
+          'Content-Encoding': 'identity'
+        })
       })
     } else if (acceptHeader === '*') {
       const preferredAlgo = opts.compression[0]
@@ -103,9 +103,9 @@ export const compression =
 
       return new Response(compressed, {
         headers: new Headers({
-          'Content-Encoding': preferredAlgo,
+          'Content-Encoding': preferredAlgo
         }),
-        status: 200,
+        status: 200
       })
     } else {
       if (Array.isArray(encodings)) {
@@ -123,18 +123,18 @@ export const compression =
 
         return new Response(compressed, {
           headers: new Headers({
-            'Content-Encoding': encs.join(', '),
-          }),
+            'Content-Encoding': encs.join(', ')
+          })
         })
       } else {
         return Object.keys(funcs).includes(encodings as string)
           ? new Response(funcs[encodings as Compression](buf), {
               headers: new Headers({
-                'Content-Encoding': encodings as string,
-              }),
+                'Content-Encoding': encodings as string
+              })
             })
           : new Response('Not Acceptable', {
-              status: 406,
+              status: 406
             })
       }
     }

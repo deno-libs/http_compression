@@ -19,7 +19,7 @@ describe('options', () => {
     const request = superdeno(
       compression({
         path: 'README.md',
-        compression: ['br', 'gzip', 'deflate'],
+        compression: ['br', 'gzip', 'deflate']
       })
     )
     await request
