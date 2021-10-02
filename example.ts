@@ -5,10 +5,10 @@ const s = new Server({
   handler: async (req) => {
     return await compression({
       path: 'README.md',
-      compression: ['br', 'gzip', 'deflate'],
+      compression: ['br', 'gzip', 'deflate']
     })(req)
   },
-  addr: ':3000',
+  addr: ':3000'
 })
 
 s.listenAndServe()
