@@ -11,7 +11,7 @@ describe('options', () => {
       .set('Accept-Encoding', 'identity')
       .expect(200)
       .expect('Content-Encoding', 'identity')
-      .expect('Content-Length', '2103')
+      .expect('Content-Length', '2047')
   })
   it('applies compression to a file', async () => {
     const request = superdeno(
@@ -23,7 +23,7 @@ describe('options', () => {
     await request
       .get('/')
       .set('Accept-Encoding', 'br, gzip, deflate')
-      .expect('Content-Length', '866')
+      .expect('Content-Length', '854')
       .expect('Content-Encoding', 'br, gzip, deflate')
   })
   it('applies compression to a string', async () => {
@@ -33,7 +33,7 @@ describe('options', () => {
     await request
       .get('/')
       .set('Accept-Encoding', 'br, gzip, deflate')
-      .expect('Content-Length', '866')
+      .expect('Content-Length', '854')
       .expect('Content-Encoding', 'br, gzip, deflate')
   })
   it('applies compression to a byte array', async () => {
@@ -43,7 +43,7 @@ describe('options', () => {
     await request
       .get('/')
       .set('Accept-Encoding', 'br, gzip, deflate')
-      .expect('Content-Length', '866')
+      .expect('Content-Length', '854')
       .expect('Content-Encoding', 'br, gzip, deflate')
   })
 })
