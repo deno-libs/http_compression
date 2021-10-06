@@ -1,6 +1,6 @@
 <div align="center">
 
-# compression
+# http_compression
 
 [![nest badge][nest-badge]](https://nest.land/package/compression) [![GitHub Workflow Status][gh-actions-img]][github-actions]
 [![Codecov][cov-badge]][cov] [![][docs-badge]][docs] [![][code-quality-img]][code-quality]
@@ -20,8 +20,8 @@ Deno HTTP compression middleware.
 ## Example
 
 ```ts
-import { compression } from 'https://deno.land/x/compression/mod.ts'
-import { Server } from 'https://deno.land/std@0.107.0/http/server.ts'
+import { compression } from 'https://deno.land/x/http_compression/mod.ts'
+import { Server } from 'https://deno.land/http/server.ts'
 
 const s = new Server({
   handler: async (req) => {
