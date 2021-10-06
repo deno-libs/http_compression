@@ -1,5 +1,5 @@
 import { compress as brotli } from 'https://deno.land/x/brotli@v0.1.4/mod.ts'
-import { gzip, deflate } from 'https://deno.land/x/denoflate@1.2.1/mod.ts'
+import { deflate, gzip } from 'https://deno.land/x/denoflate@1.2.1/mod.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.1/mod.ts'
 import { readAll } from 'https://deno.land/std@0.108.0/io/util.ts'
 
@@ -16,14 +16,29 @@ type Compression = 'gzip' | 'br' | 'deflate'
 
 export type CompressionOptions = {
   /**
-   * Path to file
-   */
-  path: string
-  /**
    * Compression algorithms (gzip, brotli, deflate). The first is used if all are accepted by the client
    */
   compression: [Compression] | [Compression, Compression] | [Compression, Compression, Compression]
-}
+} & (
+  | {
+      /**
+       * Path to file
+       */
+      path: string
+    }
+  | {
+      /**
+       * Body as a byte array (as returned from Deno.readFile methods)
+       */
+      bodyBinary: Uint8Array
+    }
+  | {
+      /**
+       * Body as a string (as returned from Deno.readTextFile)
+       */
+      bodyText: string
+    }
+)
 
 /**
  * HTTP Compression middleware.
@@ -53,10 +68,19 @@ export const compression =
 
     const encodings = accepts.encodings()
 
-    const file = await Deno.open(opts.path)
-
-    const buf = await readAll(file)
-    file.close()
+    let buf: Uint8Array
+    if ('bodyBinary' in opts) {
+      buf = opts.bodyBinary
+    } else if ('bodyText' in opts) {
+      const encoder = new TextEncoder()
+      buf = encoder.encode(opts.bodyText)
+    } else if ('path' in opts) {
+      const file = await Deno.open(opts.path)
+      buf = await readAll(file)
+      file.close()
+    } else {
+      throw Error('Must specify either bodyBinary, bodyText, or path.')
+    }
 
     if (!acceptHeader || acceptHeader === 'identity' || (Array.isArray(encodings) && encodings[0] === 'identity')) {
       return new Response(buf, {
