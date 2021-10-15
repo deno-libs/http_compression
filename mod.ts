@@ -1,7 +1,7 @@
 import { compress as brotli } from 'https://deno.land/x/brotli@v0.1.4/mod.ts'
 import { deflate, gzip } from 'https://deno.land/x/denoflate@1.2.1/mod.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.1/mod.ts'
-import { readAll } from 'https://deno.land/std@0.110.0/io/util.ts'
+import { readAll } from 'https://deno.land/std@0.111.0/io/util.ts'
 
 const funcs = {
   br: brotli,
@@ -46,7 +46,7 @@ export type CompressionOptions = {
  *
  * @example
  * ```ts
- *import { serve } from 'https://deno.land/std@0.110.0/http/server.ts'
+ *import { serve } from 'https://deno.land/std@0.111.0/http/server.ts'
  *import { compression } from 'https://deno.land/x/compression/brotli.ts'
  *
  *const s = serve({ port: 3000 })
