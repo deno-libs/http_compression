@@ -1,5 +1,5 @@
 import { compression } from './mod.ts'
-import { Server } from 'https://deno.land/std@0.111.0/http/server.ts'
+import { Server } from 'https://deno.land/std@0.122.0/http/server.ts'
 
 const s = new Server({
   handler: async (req) => {
@@ -8,7 +8,7 @@ const s = new Server({
       compression: ['br', 'gzip', 'deflate']
     })(req)
   },
-  addr: ':3000'
+  port: 3000
 })
 
 s.listenAndServe()
