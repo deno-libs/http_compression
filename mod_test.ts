@@ -1,5 +1,5 @@
 import { superdeno } from 'https://deno.land/x/superdeno@4.8.0/mod.ts'
-import { describe, it, run } from 'https://deno.land/x/tincan@1.0.0/mod.ts'
+import { describe, it, run } from 'https://deno.land/x/tincan@1.0.1/mod.ts'
 import { compression } from './mod.ts'
 
 describe('options', () => {
