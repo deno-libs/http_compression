@@ -4,7 +4,7 @@
   "entry": "./mod.ts",
   "description": "🦕🟦 A lightweight Deno HTTP client library for IPFS",
   "homepage": "https://deno.land/x/http_compression",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "releaseType": null,
   "unstable": true,
   "unlisted": false,

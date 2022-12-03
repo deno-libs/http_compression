@@ -1,7 +1,9 @@
-import { compress as brotli } from 'https://deno.land/x/brotli@v0.1.4/mod.ts'
-import { deflate, gzip } from 'https://deno.land/x/denoflate@1.2.1/mod.ts'
+import { readAll } from 'https://deno.land/std@0.167.0/streams/read_all.ts'
+import { compress as brotli } from 'https://deno.land/x/brotli@0.1.7/mod.ts'
+import { Foras, gzip, deflate } from 'https://deno.land/x/foras@2.0.2/deno/mod.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.1/mod.ts'
-import { readAll } from 'https://deno.land/std@0.148.0/streams/conversion.ts'
+
+await Foras.initSyncBundledOnce()
 
 const funcs = {
   br: brotli,
@@ -46,17 +48,14 @@ export type CompressionOptions = {
  *
  * @example
  * ```ts
- *import { serve } from 'https://deno.land/std@0.148.0/http/server.ts'
- *import { compression } from 'https://deno.land/x/compression/brotli.ts'
- *
- *const s = serve({ port: 3000 })
- *
- *for await (const req of s) {
- *  await compression({
- *    path: 'README.md',
- *    compression: ['gzip', 'deflate']
- *  })(req)
- *}
+import { compression } from 'https://deno.land/x/http_compression/mod.ts'
+import { Server } from 'https://deno.land/std@0.167.0/http/server.ts'
+
+new Server({
+  handler: async (req) => {
+    return await compression({ path, compression: ['br', 'gzip', 'deflate'] })(req)
+  }, port: 3000
+}).listenAndServe()
  * ```
  */
 export const compression =
