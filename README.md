@@ -47,7 +47,7 @@ content-encoding: br, gzip, deflate
 
 [docs-badge]: https://img.shields.io/github/v/release/deno-libs/http_compression?label=Docs&logo=deno&style=for-the-badge&color=black
 [docs]: https://doc.deno.land/https/deno.land/x/http_compression/mod.ts
-[gh-actions-img]: https://img.shields.io/github/workflow/status/deno-libs/http_compression/CI?style=for-the-badge&logo=github&label=&color=black
+[gh-actions-img]: http://img.shields.io/github/actions/workflow/status/deno-libs/http_compression/main.yml?branch=master&style=for-the-badge&logo=github&label=&color=black
 [github-actions]: https://github.com/deno-libs/http_compression/actions
 [cov]: https://coveralls.io/github/deno-libs/http_compression
 [cov-badge]: https://img.shields.io/coveralls/github/deno-libs/http_compression?style=for-the-badge&color=black
