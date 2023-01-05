@@ -1,6 +1,6 @@
 import { readAll } from 'https://deno.land/std@0.170.0/streams/read_all.ts'
 import { compress as brotli } from 'https://deno.land/x/brotli@0.1.7/mod.ts'
-import { Foras, gzip, deflate } from 'https://deno.land/x/foras@2.0.3/deno/mod.ts'
+import { Foras, gzip, deflate } from 'https://deno.land/x/foras@2.0.3/src/deno/mod.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.1/mod.ts'
 
 await Foras.initSyncBundledOnce()
