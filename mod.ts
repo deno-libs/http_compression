@@ -1,14 +1,14 @@
-import { readAll } from 'https://deno.land/std@0.170.0/streams/read_all.ts'
+import { readAll } from 'https://deno.land/std@0.175.0/streams/read_all.ts'
 import { compress as brotli } from 'https://deno.land/x/brotli@0.1.7/mod.ts'
-import { Foras, gzip, deflate } from 'https://deno.land/x/foras@2.0.3/src/deno/mod.ts'
+import { Foras } from 'https://deno.land/x/foras@2.0.6/src/deno/mod.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.1/mod.ts'
 
-await Foras.initSyncBundledOnce()
+await Foras.initBundledOnce()
 
 const funcs = {
   br: brotli,
-  gzip: (body: Uint8Array) => gzip(body, undefined),
-  deflate: (body: Uint8Array) => deflate(body, undefined)
+  gzip: (body: Uint8Array) => Foras.gzip(body, undefined),
+  deflate: (body: Uint8Array) => Foras.deflate(body, undefined)
 }
 
 /**
@@ -49,7 +49,7 @@ export type CompressionOptions = {
  * @example
  * ```ts
 import { compression } from 'https://deno.land/x/http_compression/mod.ts'
-import { Server } from 'https://deno.land/std@0.170.0/http/server.ts'
+import { Server } from 'https://deno.land/std@0.175.0/http/server.ts'
 
 new Server({
   handler: async (req) => {
@@ -96,8 +96,7 @@ export const compression =
       return new Response(compressed, {
         headers: new Headers({
           'Content-Encoding': preferredAlgo
-        }),
-        status: 200
+        })
       })
     } else {
       if (Array.isArray(encodings)) {
