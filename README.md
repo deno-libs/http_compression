@@ -2,8 +2,10 @@
 
 # http_compression
 
-[![nest badge][nest-badge]](https://nest.land/package/compression) [![GitHub Workflow Status][gh-actions-img]][github-actions]
-[![Codecov][cov-badge]][cov] [![][docs-badge]][docs] [![][code-quality-img]][code-quality]
+[![nest badge][nest-badge]](https://nest.land/package/compression)
+[![GitHub Workflow Status][gh-actions-img]][github-actions]
+[![Codecov][cov-badge]][cov] [![][docs-badge]][docs]
+[![][code-quality-img]][code-quality]
 
 </div>
 
@@ -27,10 +29,10 @@ const s = new Server({
   handler: async (req) => {
     return await compression({
       path: 'README.md',
-      compression: ['br', 'gzip', 'deflate']
+      compression: ['br', 'gzip', 'deflate'],
     })(req)
   },
-  addr: ':3000'
+  addr: ':3000',
 })
 
 s.listenAndServe()

@@ -8,7 +8,7 @@ await Foras.initBundledOnce()
 const funcs = {
   br: brotli,
   gzip: (body: Uint8Array) => Foras.gzip(body, undefined),
-  deflate: (body: Uint8Array) => Foras.deflate(body, undefined)
+  deflate: (body: Uint8Array) => Foras.deflate(body, undefined),
 }
 
 /**
@@ -50,8 +50,7 @@ new Server({
  * ```
  */
 export const compression =
-  (opts: CompressionOptions) =>
-  async (req: Request): Promise<Response> => {
+  (opts: CompressionOptions) => async (req: Request): Promise<Response> => {
     const acceptHeader = req.headers.get('Accept-Encoding')
 
     const accepts = new Accepts(req.headers)
@@ -72,20 +71,23 @@ export const compression =
       throw Error('Must specify either bodyBinary, bodyText, or path.')
     }
 
-    if (!acceptHeader || acceptHeader === 'identity' || (Array.isArray(encodings) && encodings[0] === 'identity')) {
+    if (
+      !acceptHeader || acceptHeader === 'identity' ||
+      (Array.isArray(encodings) && encodings[0] === 'identity')
+    ) {
       return new Response(buf, {
         status: 200,
         headers: new Headers({
-          'Content-Encoding': 'identity'
-        })
+          'Content-Encoding': 'identity',
+        }),
       })
     } else if (acceptHeader === '*') {
       const compressed = funcs.gzip(buf)
 
       return new Response(compressed, {
         headers: new Headers({
-          'Content-Encoding': 'gzip'
-        })
+          'Content-Encoding': 'gzip',
+        }),
       })
     } else {
       if (Array.isArray(encodings)) {
@@ -103,19 +105,19 @@ export const compression =
 
         return new Response(compressed, {
           headers: new Headers({
-            'Content-Encoding': encs.join(', ')
-          })
+            'Content-Encoding': encs.join(', '),
+          }),
         })
       } else {
         return Object.keys(funcs).includes(encodings as string)
           ? new Response(funcs[encodings as Compression](buf), {
-              headers: new Headers({
-                'Content-Encoding': encodings as string
-              })
-            })
+            headers: new Headers({
+              'Content-Encoding': encodings as string,
+            }),
+          })
           : new Response('Not Acceptable', {
-              status: 406
-            })
+            status: 406,
+          })
       }
     }
   }

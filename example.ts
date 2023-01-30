@@ -4,8 +4,7 @@ import { Server } from 'https://deno.land/std@0.175.0/http/server.ts'
 const s = new Server({
   handler: async (req) => {
     return await compression({
-      path: 'README.md',
-      compression: ['br', 'gzip', 'deflate']
+      path: 'README.md'
     })(req)
   },
   port: 3000

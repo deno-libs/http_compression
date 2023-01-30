@@ -16,8 +16,8 @@ describe('options', () => {
   it('applies compression to a file', async () => {
     const request = superdeno(
       compression({
-        path: 'LICENSE'
-      })
+        path: 'LICENSE',
+      }),
     )
     await request
       .get('/')
