@@ -4,7 +4,7 @@ import { compression } from './mod.ts'
 
 describe('options', () => {
   it('does not apply compression if "Accept-Encoding" is "identity"', async () => {
-    const request = superdeno(compression({ path: 'LICENSE', compression: ['gzip'] }))
+    const request = superdeno(compression({ path: 'LICENSE' }))
 
     await request
       .get('/')
@@ -16,8 +16,7 @@ describe('options', () => {
   it('applies compression to a file', async () => {
     const request = superdeno(
       compression({
-        path: 'LICENSE',
-        compression: ['br', 'gzip', 'deflate']
+        path: 'LICENSE'
       })
     )
     await request
@@ -28,7 +27,7 @@ describe('options', () => {
   })
   it('applies compression to a string', async () => {
     const bodyText = await Deno.readTextFile('LICENSE')
-    const request = superdeno(compression({ bodyText, compression: ['br', 'gzip', 'deflate'] }))
+    const request = superdeno(compression({ bodyText }))
 
     await request
       .get('/')
@@ -38,7 +37,7 @@ describe('options', () => {
   })
   it('applies compression to a byte array', async () => {
     const bodyBinary = await Deno.readFile('LICENSE')
-    const request = superdeno(compression({ bodyBinary, compression: ['br', 'gzip', 'deflate'] }))
+    const request = superdeno(compression({ bodyBinary }))
 
     await request
       .get('/')

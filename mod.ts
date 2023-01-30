@@ -16,31 +16,22 @@ const funcs = {
  */
 type Compression = 'gzip' | 'br' | 'deflate'
 
-export type CompressionOptions = {
+export type CompressionOptions = Partial<{
   /**
-   * Compression algorithms (gzip, brotli, deflate). The first is used if all are accepted by the client
+   * Path to file
    */
-  compression: [Compression] | [Compression, Compression] | [Compression, Compression, Compression]
-} & (
-  | {
-      /**
-       * Path to file
-       */
-      path: string
-    }
-  | {
-      /**
-       * Body as a byte array (as returned from Deno.readFile methods)
-       */
-      bodyBinary: Uint8Array
-    }
-  | {
-      /**
-       * Body as a string (as returned from Deno.readTextFile)
-       */
-      bodyText: string
-    }
-)
+  path: string
+
+  /**
+   * Body as a byte array (as returned from Deno.readFile methods)
+   */
+  bodyBinary: Uint8Array
+
+  /**
+   * Body as a string (as returned from Deno.readTextFile)
+   */
+  bodyText: string
+}>
 
 /**
  * HTTP Compression middleware.
@@ -68,12 +59,12 @@ export const compression =
     const encodings = accepts.encodings()
 
     let buf: Uint8Array
-    if ('bodyBinary' in opts) {
+    if (opts.bodyBinary) {
       buf = opts.bodyBinary
-    } else if ('bodyText' in opts) {
+    } else if (opts.bodyText) {
       const encoder = new TextEncoder()
       buf = encoder.encode(opts.bodyText)
-    } else if ('path' in opts) {
+    } else if (opts.path) {
       const file = await Deno.open(opts.path)
       buf = await readAll(file)
       file.close()
@@ -89,13 +80,11 @@ export const compression =
         })
       })
     } else if (acceptHeader === '*') {
-      const preferredAlgo = opts.compression[0]
-
-      const compressed = funcs[preferredAlgo](buf)
+      const compressed = funcs.gzip(buf)
 
       return new Response(compressed, {
         headers: new Headers({
-          'Content-Encoding': preferredAlgo
+          'Content-Encoding': 'gzip'
         })
       })
     } else {
