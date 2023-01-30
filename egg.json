@@ -2,16 +2,23 @@
   "$schema": "https://x.nest.land/eggs@0.3.8/src/schema.json",
   "name": "http_compression",
   "entry": "./mod.ts",
-  "description": "🦕🟦 A lightweight Deno HTTP client library for IPFS",
+  "description": "🗜️ Deno HTTP compression middleware",
   "homepage": "https://deno.land/x/http_compression",
-  "version": "0.2.8",
-  "releaseType": null,
+  "version": "0.3.1",
+  "releaseType": "patch",
   "unstable": true,
   "unlisted": false,
-  "files": ["README.md", "./**/*.ts"],
-  "ignore": ["example.ts"],
+  "files": [
+    "README.md",
+    "./**/*.ts"
+  ],
+  "ignore": [
+    "example.ts"
+  ],
   "checkFormat": false,
   "checkTests": true,
   "checkInstallation": true,
-  "check": true
+  "check": true,
+  "checkAll": true,
+  "repository": "https://deno.land/x/http_compression"
 }
