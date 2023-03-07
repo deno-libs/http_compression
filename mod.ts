@@ -1,6 +1,6 @@
-import { readAll } from 'https://deno.land/std@0.175.0/streams/read_all.ts'
+import { readAll } from 'https://deno.land/std@0.178.0/streams/read_all.ts'
 import { compress as brotli } from 'https://deno.land/x/brotli@0.1.7/mod.ts'
-import { Foras } from 'https://deno.land/x/foras@2.0.6/src/deno/mod.ts'
+import { Foras } from 'https://deno.land/x/foras@2.0.8/src/deno/mod.ts'
 import { Accepts } from 'https://deno.land/x/accepts@2.1.1/mod.ts'
 
 await Foras.initBundledOnce()
@@ -40,7 +40,7 @@ export type CompressionOptions = Partial<{
  * @example
  * ```ts
 import { compression } from 'https://deno.land/x/http_compression/mod.ts'
-import { Server } from 'https://deno.land/std@0.175.0/http/server.ts'
+import { Server } from 'https://deno.land/std@0.178.0/http/server.ts'
 
 new Server({
   handler: async (req) => {

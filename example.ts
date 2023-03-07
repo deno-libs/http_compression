@@ -1,5 +1,5 @@
 import { compression } from './mod.ts'
-import { Server } from 'https://deno.land/std@0.175.0/http/server.ts'
+import { Server } from 'https://deno.land/std@0.178.0/http/server.ts'
 
 const s = new Server({
   handler: async (req) => {
